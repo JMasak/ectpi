@@ -4,10 +4,13 @@ project(EctPi
     VERSION 0.1.2
     LANGUAGES CXX C)
 add_executable(ectpi src/ectpi.cpp)
-target_include_directories(ectpi PUBLIC 
+find_package(Curses REQUIRED)
+target_include_directories(ectpi PUBLIC
                            "${PROJECT_BINARY_DIR}/include"
+                           "${PROJECT_SOURCE_DIR}/include"
                            "${PROJECT_SOURCE_DIR}/SOEM/soem"
+                           "${CURSES_INCLUDE_DIR}"
                            )
-configure_file(include/configure.h.in include/configure.h)
+#configure_file(include/configure.h.in include/configure.h)
 add_subdirectory(SOEM)
-target_link_libraries(ectpi PUBLIC soem)
+target_link_libraries(ectpi PUBLIC soem ${CURSES_LIBRARIES})

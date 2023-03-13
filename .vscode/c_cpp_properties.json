@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/SOEM/soem/**",
+                "${workspaceFolder}/SOEM/osal/",
+                "${workspaceFolder}/SOEM/osal/linux/",
+                "${workspaceFolder}/SOEM/oshw/linux/"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-arm64"
+        }
+    ],
+    "version": 4
+}
