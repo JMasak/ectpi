@@ -3,7 +3,8 @@ project(EctPi
     DESCRIPTION "EtherCAT toolbox for Raspberry Pi"
     VERSION 0.1.2
     LANGUAGES CXX C)
-add_executable(ectpi src/ectpi.cpp)
+file(GLOB SRC_FILES src/*.cpp)
+add_executable(ectpi ${SRC_FILES})
 find_package(Curses REQUIRED)
 target_include_directories(ectpi PUBLIC
                            "${PROJECT_BINARY_DIR}/include"
