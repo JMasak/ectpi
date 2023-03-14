@@ -7,6 +7,31 @@
 
 const char* const interface = "eth0";
 
+void printSlaveInformation(SlaveInfo* info)
+{
+    printw("PDI Control:        0x%04x\n", info->escInfo.pdiControl);
+    printw("PDI Configuration:  0x%04x\n", info->escInfo.pdiConfiguration);
+    printw("Sync Impulse:       0x%04x\n", info->escInfo.syncImpulse);
+    printw("PDI Configuration2: 0x%04x\n", info->escInfo.pdiConfig2);
+    printw("StationAlias:       0x%04x\n", info->escInfo.stationAlias);
+    printw("Checksum Eeprom:    0x%04x\n", info->escInfo.checksum);
+    printw("Checksum calc:      0x%04x\n\n", Ecat::SIIcrc(info));
+    printw("Vendor ID:          0x%08x\n", info->identity.vendorId);
+    printw("Product Code:       0x%08x\n", info->identity.productCode);
+    printw("Revision Number:    0x%08x\n", info->identity.revisionNumber);
+    printw("Serial Number:      0x%08x\n\n", info->identity.serialNumber);
+    printw("Bootmbx RX Offset:  0x%04x\n", info->bootstrapMailbox.receiveOffset);
+    printw("Bootmbx RX Size:    0x%04x\n", info->bootstrapMailbox.receiveSize);
+    printw("Bootmbx TX Offset:  0x%04x\n", info->bootstrapMailbox.sendOffset);
+    printw("Bootmbx TX Size:    0x%04x\n", info->bootstrapMailbox.sendSize);
+    printw("Mailbox RX Offset:  0x%04x\n", info->mailbox.receiveOffset);
+    printw("Mailbox RX Size:    0x%04x\n", info->mailbox.receiveSize);
+    printw("Mailbox TX Offset:  0x%04x\n", info->mailbox.sendOffset);
+    printw("Mailbox TX Size:    0x%04x\n", info->mailbox.sendSize);
+    printw("Mailbox Protocols:  0x%04x\n\n", info->mailbox.mailboxProtocol);
+    printw("SII Size:           %d byte(s)\n", (info->siiSize.size + 1) * 128);
+    printw("SII Version:        %d\n", info->siiSize.version);
+}
 
 int main()
 {
@@ -30,28 +55,7 @@ int main()
             {
                 printw("Slave %d:\n\n", i);
                 int length = bus->getSlaveInfo(i, info, sizeof(SlaveInfo));
-                printw("PDI Control:        0x%04x\n", info->escInfo.pdiControl);
-                printw("PDI Configuration:  0x%04x\n", info->escInfo.pdiConfiguration);
-                printw("Sync Impulse:       0x%04x\n", info->escInfo.syncImpulse);
-                printw("PDI Configuration2: 0x%04x\n", info->escInfo.pdiConfig2);
-                printw("StationAlias:       0x%04x\n", info->escInfo.stationAlias);
-                printw("Checksum Eeprom:    0x%04x\n", info->escInfo.checksum);
-                printw("Checksum calc:      0x%04x\n\n", Ecat::SIIcrc(info));
-                printw("Vendor ID:          0x%08x\n", info->identity.vendorId);
-                printw("Product Code:       0x%08x\n", info->identity.productCode);
-                printw("Revision Number:    0x%08x\n", info->identity.revisionNumber);
-                printw("Serial Number:      0x%08x\n\n", info->identity.serialNumber);
-                printw("Bootmbx RX Offset:  0x%04x\n", info->bootstrapMailbox.receiveOffset);
-                printw("Bootmbx RX Size:    0x%04x\n", info->bootstrapMailbox.receiveSize);
-                printw("Bootmbx TX Offset:  0x%04x\n", info->bootstrapMailbox.sendOffset);
-                printw("Bootmbx TX Size:    0x%04x\n", info->bootstrapMailbox.sendSize);
-                printw("Mailbox RX Offset:  0x%04x\n", info->mailbox.receiveOffset);
-                printw("Mailbox RX Size:    0x%04x\n", info->mailbox.receiveSize);
-                printw("Mailbox TX Offset:  0x%04x\n", info->mailbox.sendOffset);
-                printw("Mailbox TX Size:    0x%04x\n", info->mailbox.sendSize);
-                printw("Mailbox Protocols:  0x%04x\n\n", info->mailbox.mailboxProtocol);
-                printw("SII Size:           %d byte(s)\n", (info->siiSize.size + 1) * 128);
-                printw("SII Version:        %d\n", info->siiSize.version);
+                printSlaveInformation(info);
                 if(i < slaves)
                 {
                     printw("\npress any key to display info for slave %d\n", i+1);
@@ -62,10 +66,10 @@ int main()
         }
         delete info;
     }
-
     printw("\nPress any key to exit!\n");
     getch();
     delete bus;
     endwin();
     return 0;
 }
+
